@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,8 +24,31 @@ public class Course {
 	private String description;
 	private Double approve;
 
-	@ManyToMany
-	Set<Student> students = new HashSet<>();;
+	@ManyToMany(fetch = FetchType.EAGER)
+	Set<Student> students = new HashSet<>();
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	Set<Teacher> teachers = new HashSet<>();
+	
+	public Course() {}
+
+	public Course(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * @return the teachers
+	 */
+	public Set<Teacher> getTeachers() {
+		return teachers;
+	}
+
+	/**
+	 * @param teachers the teachers to set
+	 */
+	public void setTeachers(Set<Teacher> teachers) {
+		this.teachers = teachers;
+	}
 
 	/**
 	 * @return the id
@@ -47,14 +71,12 @@ public class Course {
 		return students;
 	}
 
-	/**
-	 * @param students the students to set	
-	public void setStudents(Set<Student> students) {
-		this.students = students;
-	} */
-
 	public void addStudent(Student student) {
 		students.add(student);
+	}
+	
+	public void addTeacher(Teacher teacher) {
+		teachers.add(teacher);
 	}
 	
 	/**

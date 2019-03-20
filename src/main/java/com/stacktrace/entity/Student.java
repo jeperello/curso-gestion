@@ -3,7 +3,9 @@ package com.stacktrace.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -11,8 +13,15 @@ import javax.persistence.Table;
 @Table(name = "Student")
 public class Student extends Person implements Serializable {
 
-	@ManyToMany(mappedBy = "students")
+	@ManyToMany(mappedBy = "students", fetch=FetchType.EAGER)
 	Set<Course> courses;
+	
+	public Student(){}
+
+	public Student(String name, String lastName){
+		super.setName(name);
+		super.setLastName(lastName);
+	}
 
 	/**
 	 * @return the courses

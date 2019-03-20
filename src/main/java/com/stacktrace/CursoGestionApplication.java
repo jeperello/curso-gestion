@@ -49,18 +49,21 @@ public class CursoGestionApplication {
 		return (args) -> {
 
 			// Teacher Repository Test
-			Teacher newTeacher = new Teacher();
-			newTeacher.setName("Rosenda");
+			Teacher newTeacher = new Teacher("Rosenda");
 			teacherRepository.save(newTeacher);
 
-			for (Teacher teacher : teacherRepository.findAll()) {
-				log.info(teacher.toString());
-			}
+			teacherRepository.save(new Teacher("Luis"));
+			Teacher teacher3 = teacherRepository.save(new Teacher("Sandoval"));
+			//for (Teacher teacher : teacherRepository.findAll()) {
+				//log.info(teacher.toString());
+			//}
 
 			// Course Repository Test
 			Course newCourse = new Course();
 			newCourse.setName("Gestion empresarial");
 			courseRepository.save(newCourse);
+			courseRepository.save(new Course("Programacion 1"));
+			courseRepository.save(new Course("Programacion 2"));
 
 			log.info(courseRepository.findById(1L).toString());
 
@@ -71,14 +74,34 @@ public class CursoGestionApplication {
 			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
 			newStudent.setBirthday(sdf.parse("9-02-17"));
 			studentRepository.save(newStudent);
+			Student student2 = studentRepository.save(new Student("Manuel","Peralta"));
+			studentRepository.save(new Student("Juana","Molina"));
+						
+			// Add student in a course
+			newCourse.addStudent(newStudent);
+			newCourse.addStudent(student2);
+
+			// Add teacher in a course
+			newCourse.addTeacher(newTeacher);
+			newCourse.addTeacher(teacher3);
+			
+			courseRepository.save(newCourse);
 
 			for (Student student : studentRepository.findAll()) {
 				log.info(student.toString());
+
+				for (Course course : student.getCourses()) {
+					log.info(course.toString());
+				}
 			}
 
-			// Add student in a course
-			newCourse.addStudent(newStudent);
-			courseRepository.save(newCourse);
+			for (Course course : courseRepository.findAll()) {
+				log.info(course.toString());
+
+				for (Student student : course.getStudents()) {
+					log.info(student.toString());
+				}
+			}
 
 		};
 	}

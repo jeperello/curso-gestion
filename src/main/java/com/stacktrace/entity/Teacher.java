@@ -1,13 +1,14 @@
 package com.stacktrace.entity;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Teacher")
-public class Teacher extends Person implements Serializable {
+public class Teacher extends Person {
 
 	private String training;
 	private String title;
@@ -15,6 +16,7 @@ public class Teacher extends Person implements Serializable {
 	/**
 	 * Courses
 	 */
+	@JsonIgnore
 	@ManyToMany(mappedBy = "teachers")
 	private Set<Course> courses;
 

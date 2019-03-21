@@ -3,6 +3,7 @@ package com.stacktrace.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Course {
@@ -23,13 +26,16 @@ public class Course {
 	private int duration;
 	private String description;
 	private Double approve;
-
-	@ManyToMany
+	
+	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<Student> students = new HashSet<>();
 
 	@ManyToMany
 	private Set<Teacher> teachers = new HashSet<>();
 	
+	/**
+	 * Constructors
+	 */
 	public Course() {}
 
 	public Course(String name) {
@@ -135,8 +141,4 @@ public class Course {
 		this.approve = approve;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("Course[id='%d', name='%s']", id, name);
-	}
 }

@@ -151,9 +151,4 @@ public abstract class Person {
 		this.phoneNumber = phoneNumber;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("Person[id='%d', phoneNumber='%d', name='%s']", id, phoneNumber, name);
-	}
-
 }

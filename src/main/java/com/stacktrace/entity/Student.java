@@ -1,21 +1,23 @@
 package com.stacktrace.entity;
 
-import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Student")
-public class Student extends Person implements Serializable {
-
-	@ManyToMany(mappedBy = "students")
-	Set<Course> courses;
+public class Student extends Person{
 	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
+	Set<Course> courses = new HashSet<>();
+	
+	/**
+	 * Constructors
+	 */
 	public Student(){}
 
 	public Student(String name, String lastName){
@@ -37,4 +39,9 @@ public class Student extends Person implements Serializable {
 		this.courses = courses;
 	}
 	
+	public void addCourse(Course course) {
+		courses.add(course);
+	}
+	
+
 }

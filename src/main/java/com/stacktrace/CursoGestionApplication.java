@@ -90,21 +90,24 @@ public class CursoGestionApplication {
 			 *  Relations Repository Test
 			 */
 			// Add student in a course
-			//newCourse.addStudent(newStudent);
-			//newCourse.addStudent(student2);
+			newCourse.addStudent(newStudent);
+			newCourse.addStudent(student2);
 			// Add teacher in a course
-			//newCourse.addTeacher(newTeacher);
-			//newCourse.addTeacher(teacher3);			
-			//courseRepository.save(newCourse);
+			newCourse.addTeacher(newTeacher);
+			newCourse.addTeacher(teacher3);			
+			courseService.save(newCourse);
+			
+			//newStudent.addCourse(newCourse);
+			//studentService.save(newStudent);			
 
-			log.info("teacherService.findById(1).toString():");
-			log.info(teacherService.findById(1).toString());
+			log.info("teacherService.findById(1).getName():");
+			log.info(teacherService.findById(1).getName());
 
-			log.info("studentService.findById(2).toString():");
-			log.info(studentService.findById(2).toString());
+			log.info("studentService.findById(1).getName():");
+			log.info(studentService.findById(1).getName());
 
-			log.info("courseService.findById(3).toString():");
-			log.info(courseService.findById(3).toString());
+			log.info("courseService.findById(3).getName():");
+			log.info(courseService.findById(3).getName());
 		};
 	}
 

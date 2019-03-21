@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "Student")
 public class Student extends Person implements Serializable {
 
-	@ManyToMany(mappedBy = "students", fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy = "students")
 	Set<Course> courses;
 	
 	public Student(){}

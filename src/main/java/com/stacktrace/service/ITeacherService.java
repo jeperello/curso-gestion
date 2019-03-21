@@ -10,4 +10,5 @@ public interface ITeacherService {
 
 	public Teacher findById(int id);
 	
+	public Teacher save(Teacher teacher);
 }

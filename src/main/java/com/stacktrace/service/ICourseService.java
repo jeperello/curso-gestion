@@ -2,7 +2,7 @@ package com.stacktrace.service;
 
 import java.util.List;
 
-import com.stacktrace.entity.Student;
+import com.stacktrace.entity.Course;
 
 /**
  * @author jorge
@@ -10,7 +10,9 @@ import com.stacktrace.entity.Student;
  */
 public interface ICourseService {
 
-	public List<Student> findAll();
+	public List<Course> findAll();
 	
-	public Student findById(long id);
+	public Course findById(long id);
+	
+	public Course save(Course course);
 }

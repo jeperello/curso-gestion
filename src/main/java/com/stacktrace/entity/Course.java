@@ -24,11 +24,11 @@ public class Course {
 	private String description;
 	private Double approve;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	Set<Student> students = new HashSet<>();
+	@ManyToMany
+	private Set<Student> students = new HashSet<>();
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	Set<Teacher> teachers = new HashSet<>();
+	@ManyToMany
+	private Set<Teacher> teachers = new HashSet<>();
 	
 	public Course() {}
 

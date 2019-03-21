@@ -27,4 +27,9 @@ public class TeacherService implements ITeacherService {
 		return teacher;
 	}
 
+	@Override
+	public Teacher save(Teacher teacher) {
+		return repository.save(teacher);
+	}
+
 }

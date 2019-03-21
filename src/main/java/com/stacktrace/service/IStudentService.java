@@ -13,4 +13,6 @@ public interface IStudentService {
 	public List<Student> findAll();
 	
 	public Student findById(long id);
+	
+	public Student save(Student student);
 }

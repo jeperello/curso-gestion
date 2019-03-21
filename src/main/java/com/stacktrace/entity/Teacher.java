@@ -15,13 +15,8 @@ public class Teacher extends Person implements Serializable {
 	/**
 	 * Courses
 	 */
-	@ManyToMany(mappedBy = "teachers", fetch = FetchType.EAGER)
-	/*
-	 * @JoinTable( name = "teacher_course", joinColumns = @JoinColumn(name =
-	 * "teacher_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
-	 */
+	@ManyToMany(mappedBy = "teachers")
 	private Set<Course> courses;
-
 
 	/**
 	 * Constructors
@@ -31,6 +26,11 @@ public class Teacher extends Person implements Serializable {
 
 	public Teacher(String name) {
 		super.setName(name);
+	}
+
+	public Teacher(String name, String lastName) {
+		super.setName(name);
+		super.setLastName(lastName);
 	}
 
 	/**

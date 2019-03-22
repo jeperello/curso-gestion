@@ -21,15 +21,20 @@ public class TeacherService implements ITeacherService {
 	}
 	
 	@Override
-	public Teacher findById(int id) {
+	public Teacher findById(Long id) {
 		Teacher teacher = new Teacher();
-		teacher = repository.findById((long) id).orElse(null);
+		teacher = repository.findById(id).orElse(null);
 		return teacher;
 	}
 
 	@Override
 	public Teacher save(Teacher teacher) {
 		return repository.save(teacher);
+	}
+	
+	@Override
+	public void delete(Teacher teacher) {
+		repository.delete(teacher);
 	}
 
 }

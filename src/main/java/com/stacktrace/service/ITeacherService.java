@@ -8,7 +8,9 @@ public interface ITeacherService {
 	
 	public List<Teacher> findAll();
 
-	public Teacher findById(int id);
+	public Teacher findById(Long id);
 	
 	public Teacher save(Teacher teacher);
+
+	void delete(Teacher teacher);
 }

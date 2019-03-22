@@ -3,10 +3,23 @@ package com.stacktrace.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.stacktrace.enumtype.SexType;
+
+
 
 @MappedSuperclass
 public abstract class Person {
@@ -17,13 +30,31 @@ public abstract class Person {
 	private Long id;
 
 	private String documentType;
+	
+	@Min(value=0L)
+	@Max(value=9223372036854775807L)
 	private Long documentNumber;
+	
+	@NotNull(message = "User name cannot not be empty")
+	@Size(min = 3, max = 50, message = "The length of the name must be between 3 and 50 characters")
 	private String name;
+
+	@NotNull(message = "User last name cannot not be empty")
+	@Size(min = 3, max = 50, message = "The length of the last name must be between 3 and 50 characters")
 	private String lastName;
+	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	private Date birthday;
+	
 	private String address;
+	
+	//@NotNull(message = "User sex cannot not be empty")
 	private String sex;
-	private String phoneNumber;
+	
+	@Min(value=0L)
+	@Max(value=9223372036854775807L)
+	private Integer phoneNumber;
 
 	/**
 	 * @return the id
@@ -140,14 +171,14 @@ public abstract class Person {
 	/**
 	 * @return the phone Number
 	 */
-	public String getPhoneNumber() {
+	public Integer getPhoneNumber() {
 		return phoneNumber;
 	}
 
 	/**
 	 * @param phoneNumber the phone Number to set
 	 */
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(Integer phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

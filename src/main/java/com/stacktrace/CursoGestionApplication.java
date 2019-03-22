@@ -34,11 +34,6 @@ public class CursoGestionApplication {
 		SpringApplication.run(CursoGestionApplication.class, args);
 	}
 
-	@RequestMapping("/")
-	public String Saludo() {
-		return "Hello index";
-	}
-
 	@Autowired 
 	TeacherService teacherService;
 
@@ -51,14 +46,13 @@ public class CursoGestionApplication {
 	@Bean
 	public CommandLineRunner testRepositoriesMethods() {
 		return (args) -> {
-
 			/*
 			 *  Teacher Test service
 			 */			
-			Teacher newTeacher = new Teacher("Rosenda");
+			Teacher newTeacher = new Teacher("Rosendo", "Rosales");
 			teacherService.save(newTeacher);
-			teacherService.save(new Teacher("Luis"));
-			Teacher teacher3 = teacherService.save(new Teacher("Sandoval"));
+			teacherService.save(new Teacher("Luis", "Mercado"));
+			Teacher teacher3 = teacherService.save(new Teacher("Juan", "Sandoval"));
 			teacherService.save(new Teacher("Jack", "Bauer"));
 			teacherService.save(new Teacher("Chloe", "O'Brian"));
 			
@@ -68,18 +62,17 @@ public class CursoGestionApplication {
 			Course newCourse = new Course();
 			newCourse.setName("Gestion empresarial");
 			courseService.save(newCourse);
-			courseService.save(new Course("Programacion 1"));
-			courseService.save(new Course("Programacion 2"));
+			courseService.save(new Course("Java 110"));
+			courseService.save(new Course("Java 275"));
 
 			/*
 			 *  Student Test service
 			 */
-			Student newStudent = new Student();
-			newStudent.setName("Roland");
-
+			Student newStudent = new Student("Roland", "Numberone");
 			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
 			newStudent.setBirthday(sdf.parse("9-02-17"));
 			studentService.save(newStudent);
+			
 			Student student2 = studentService.save(new Student("Manuel","Peralta"));
 			studentService.save(new Student("Juana","Molina"));
 			studentService.save(new Student("Kim", "Bauer"));
@@ -92,20 +85,17 @@ public class CursoGestionApplication {
 			// Add student in a course
 			newCourse.addStudent(newStudent);
 			newCourse.addStudent(student2);
+			
 			// Add teacher in a course
 			newCourse.addTeacher(newTeacher);
 			newCourse.addTeacher(teacher3);			
-			courseService.save(newCourse);
-			
-			//newStudent.addCourse(newCourse);
-			//studentService.save(newStudent);			
+			courseService.save(newCourse);		
 
+			log.info("Testing services:");
 			log.info("teacherService.findById(1).getName():");
-			log.info(teacherService.findById(1).getName());
-
+			log.info(teacherService.findById(1L).getName());
 			log.info("studentService.findById(1).getName():");
 			log.info(studentService.findById(1).getName());
-
 			log.info("courseService.findById(3).getName():");
 			log.info(courseService.findById(3).getName());
 		};

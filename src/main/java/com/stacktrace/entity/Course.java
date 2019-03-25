@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,8 +28,11 @@ public class Course {
 	private String description;
 	private Double approve;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	private Set<Student> students = new HashSet<>();
+	//@ManyToMany(fetch = FetchType.LAZY)
+	//private Set<Student> students = new HashSet<>();
+	
+	@OneToMany(mappedBy = "course", cascade = {CascadeType.ALL})
+	Set<CourseStudent> courseStudents = new HashSet<CourseStudent>();
 
 	@ManyToMany
 	private Set<Teacher> teachers = new HashSet<>();
@@ -42,6 +46,20 @@ public class Course {
 		this.name = name;
 	}
 	
+	/**
+	 * @return the courseStudents
+	 */
+	public Set<CourseStudent> getCourseStudents() {
+		return courseStudents;
+	}
+
+	/**
+	 * @param courseStudents the courseStudents to set
+	 */
+	public void setCourseStudents(Set<CourseStudent> courseStudents) {
+		this.courseStudents = courseStudents;
+	}
+
 	/**
 	 * @return the teachers
 	 */
@@ -69,20 +87,15 @@ public class Course {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	/**
-	 * @return the students
-	 */
-	public Set<Student> getStudents() {
-		return students;
-	}
-
-	public void addStudent(Student student) {
-		students.add(student);
-	}
 	
 	public void addTeacher(Teacher teacher) {
 		teachers.add(teacher);
+	}
+	
+	public void addStudent(Student student) {
+		CourseStudent courseStudent = new CourseStudent(student, this);
+		courseStudents.add(courseStudent);
+		student.getCourseStudents().add(courseStudent);		
 	}
 	
 	/**

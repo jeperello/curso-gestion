@@ -2,6 +2,8 @@ package com.stacktrace.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.*;
 
@@ -9,39 +11,53 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Student")
-public class Student extends Person{
+public class Student extends Person {
 	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
-	Set<Course> courses = new HashSet<>();
-	
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+	Set<CourseStudent> courseStudents = new HashSet<CourseStudent>();
+
 	/**
 	 * Constructors
 	 */
-	public Student(){}
+	public Student() {
+	}
 
-	public Student(String name, String lastName){
+	public Student(String name, String lastName) {
 		super.setName(name);
 		super.setLastName(lastName);
 	}
 
 	/**
-	 * @return the courses
+	 * @return the courseStudents
 	 */
-	public Set<Course> getCourses() {
-		return courses;
+	public Set<CourseStudent> getCourseStudents() {
+		return courseStudents;
 	}
 
 	/**
-	 * @param courses the courses to set
+	 * @param courseStudents the courseStudents to set
 	 */
-	public void setCourses(Set<Course> courses) {
-		this.courses = courses;
+	public void setCourseStudents(Set<CourseStudent> courseStudents) {
+		this.courseStudents = courseStudents;
+	}
+	
+	public void setCourseToStudent(CourseStudent courseStudent) {
+		//this.courseStudents.add(courseStudent);
+		this.courseStudents = Stream.of(courseStudent).collect(Collectors.toSet());
+	}
+
+	public Student(String name, String lastName, CourseStudent... courseStudents) {
+		super.setName(name);
+		super.setLastName(lastName);
+		for (CourseStudent courseStudent : courseStudents)
+			courseStudent.setStudent(this);
+		this.courseStudents = Stream.of(courseStudents).collect(Collectors.toSet());
 	}
 	
 	public void addCourse(Course course) {
-		courses.add(course);
+		CourseStudent courseStudent = new CourseStudent(this, course);
+		courseStudents.add(courseStudent);
+		course.getCourseStudents().add(courseStudent);		
 	}
 	
-
 }

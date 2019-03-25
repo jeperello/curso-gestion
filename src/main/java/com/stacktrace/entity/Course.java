@@ -30,10 +30,11 @@ public class Course {
 	
 	//@ManyToMany(fetch = FetchType.LAZY)
 	//private Set<Student> students = new HashSet<>();
-	
+	@JsonIgnore
 	@OneToMany(mappedBy = "course", cascade = {CascadeType.ALL})
 	Set<CourseStudent> courseStudents = new HashSet<CourseStudent>();
-
+	
+	@JsonIgnore
 	@ManyToMany
 	private Set<Teacher> teachers = new HashSet<>();
 	

@@ -15,4 +15,6 @@ public interface IStudentService {
 	public Student findById(long id);
 	
 	public Student save(Student student);
+
+	void delete(Student student);
 }

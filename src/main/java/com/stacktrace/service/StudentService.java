@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.stacktrace.entity.Student;
+import com.stacktrace.entity.Teacher;
 import com.stacktrace.repository.StudentRepository;
 
 @Service
@@ -31,5 +32,11 @@ public class StudentService implements IStudentService {
 	public Student save(Student student) {
 		return repository.save(student);
 	}
+	
+	@Override
+	public void delete(Student student) {
+		repository.delete(student);
+	}
+
 
 }

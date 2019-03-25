@@ -82,10 +82,10 @@ public class TeacherController {
 	@PutMapping
 	public ResponseEntity<Map<String, Object>> updateTeacher(@RequestBody @Valid Teacher teacher) {
 		try {
-			Teacher teacherUpdate = teacherService.findById(teacher.getId());
-			if (teacherUpdate != null) {
-				teacherService.save(teacherUpdate);
-				return new ResponseEntity<>(Collections.singletonMap("id", teacherUpdate.getId()), HttpStatus.CREATED);
+			Teacher teacherSaved = teacherService.findById(teacher.getId());
+			if (teacherSaved != null) {
+				teacherService.save(teacher);
+				return new ResponseEntity<>(Collections.singletonMap("id", teacher.getId()), HttpStatus.CREATED);
 			}
 			//return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			return new ResponseEntity<>(Collections.singletonMap("id", teacher.getId()), HttpStatus.NOT_FOUND);

@@ -54,7 +54,7 @@ public abstract class Person {
 	
 	@Min(value=0L)
 	@Max(value=9223372036854775807L)
-	private Integer phoneNumber;
+	private Long phoneNumber;
 
 	/**
 	 * @return the id
@@ -171,14 +171,14 @@ public abstract class Person {
 	/**
 	 * @return the phone Number
 	 */
-	public Integer getPhoneNumber() {
+	public Long getPhoneNumber() {
 		return phoneNumber;
 	}
 
 	/**
 	 * @param phoneNumber the phone Number to set
 	 */
-	public void setPhoneNumber(Integer phoneNumber) {
+	public void setPhoneNumber(Long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

@@ -13,6 +13,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "Student")
 public class Student extends Person {
 	
+	/**
+	 * Courses
+	 */
+	@JsonIgnore
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	Set<CourseStudent> courseStudents = new HashSet<CourseStudent>();
 
@@ -41,11 +45,6 @@ public class Student extends Person {
 		this.courseStudents = courseStudents;
 	}
 	
-	public void setCourseToStudent(CourseStudent courseStudent) {
-		//this.courseStudents.add(courseStudent);
-		this.courseStudents = Stream.of(courseStudent).collect(Collectors.toSet());
-	}
-
 	public Student(String name, String lastName, CourseStudent... courseStudents) {
 		super.setName(name);
 		super.setLastName(lastName);

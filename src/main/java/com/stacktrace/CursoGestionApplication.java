@@ -1,6 +1,7 @@
 package com.stacktrace;
 
 import java.text.SimpleDateFormat;
+import java.util.Set;
 
 import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.slf4j.Logger;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stacktrace.entity.Course;
+import com.stacktrace.entity.CourseStudent;
 import com.stacktrace.entity.Student;
 import com.stacktrace.entity.Teacher;
+import com.stacktrace.entity.Title;
+import com.stacktrace.entity.Training;
 import com.stacktrace.repository.CourseRepository;
 import com.stacktrace.repository.StudentRepository;
 import com.stacktrace.repository.TeacherRepository;
@@ -49,12 +53,13 @@ public class CursoGestionApplication {
 			/*
 			 *  Teacher Test service
 			 */			
-			Teacher newTeacher = new Teacher("Rosendo", "Rosales");
-			teacherService.save(newTeacher);
-			teacherService.save(new Teacher("Luis", "Mercado"));
-			Teacher teacher3 = teacherService.save(new Teacher("Juan", "Sandoval"));
-			teacherService.save(new Teacher("Jack", "Bauer"));
-			teacherService.save(new Teacher("Chloe", "O'Brian"));
+			/*
+			 * Teacher newTeacher = new Teacher("Rosendo", "Rosales");
+			 * teacherService.save(newTeacher); teacherService.save(new Teacher("Luis",
+			 * "Mercado")); Teacher teacher3 = teacherService.save(new Teacher("Juan",
+			 * "Sandoval")); teacherService.save(new Teacher("Jack", "Bauer"));
+			 * teacherService.save(new Teacher("Chloe", "O'Brian"));
+			 */
 			
 			/*
 			 *  Course Test service
@@ -62,8 +67,8 @@ public class CursoGestionApplication {
 			Course newCourse = new Course();
 			newCourse.setName("Gestion empresarial");
 			courseService.save(newCourse);
-			courseService.save(new Course("Java 110"));
-			courseService.save(new Course("Java 275"));
+			//courseService.save(new Course("Java 110"));
+			//courseService.save(new Course("Java 275"));
 
 			/*
 			 *  Student Test service
@@ -74,30 +79,63 @@ public class CursoGestionApplication {
 			studentService.save(newStudent);
 			
 			Student student2 = studentService.save(new Student("Manuel","Peralta"));
-			studentService.save(new Student("Juana","Molina"));
-			studentService.save(new Student("Kim", "Bauer"));
-			studentService.save(new Student("David", "Palmer"));
-			studentService.save(new Student("Michelle", "Dessler"));
+			//studentService.save(new Student("Juana","Molina"));
+			//studentService.save(new Student("Kim", "Bauer"));
+			//studentService.save(new Student("David", "Palmer"));
+			//studentService.save(new Student("Michelle", "Dessler"));
 			
 			/*
 			 *  Relations Repository Test
 			 */
 			// Add student in a course
-			newCourse.addStudent(newStudent);
-			newCourse.addStudent(student2);
+			//newCourse.addStudent(newStudent);
+			//newCourse.addStudent(student2);
 			
 			// Add teacher in a course
-			newCourse.addTeacher(newTeacher);
-			newCourse.addTeacher(teacher3);			
-			courseService.save(newCourse);		
+			//newCourse.addTeacher(newTeacher);
+			//newCourse.addTeacher(teacher3);			
+			//courseService.save(newCourse);		
+			
+			// Save teacher with titles
+			teacherService.save(new Teacher("Juan Carlos", "Vives",
+					new Title("Curso Gestion"), 
+					new Title("Tecnico Electricista domiciliarion")));
+			
+			Teacher teacher3 = teacherService.save(new Teacher("Juan", "Sandoval"));
+			teacher3.addTitle(new Title("Gestion empresarial"));
+			teacherService.save(teacher3);
 
-			log.info("Testing services:");
-			log.info("teacherService.findById(1).getName():");
-			log.info(teacherService.findById(1L).getName());
-			log.info("studentService.findById(1).getName():");
-			log.info(studentService.findById(1).getName());
-			log.info("courseService.findById(3).getName():");
-			log.info(courseService.findById(3).getName());
+			teacher3.addTraining(new Training("Gestion empresarial"));
+			teacherService.save(teacher3);
+			
+			
+			Student studentTest = new Student("Abelardo", "Figueras", new CourseStudent (newCourse));
+			Set<CourseStudent> test = studentTest.getCourseStudents();
+			studentService.save(studentTest);
+			
+			//TODO save the relation to exist objects
+			//studentTest.addCourse(newCourse);
+			//studentService.save(studentTest);
+			//newCourse.addStudent(student2);
+			//courseService.save(newCourse);
+			
+			//CourseStudent courseStudent = new CourseStudent(student2, newCourse);			
+			//student2.setCourseToStudent(courseStudent);
+			//Set<CourseStudent> test2 = student2.getCourseStudents();
+			//studentService.save(student2);
+			
+			//Course course3 = courseService.findById(3);
+			//studentService.save(student)
+			
+			/*
+			 * log.info("Testing services:");
+			 * log.info("teacherService.findById(1).getName():");
+			 * log.info(teacherService.findById(1L).getName());
+			 * log.info("studentService.findById(1).getName():");
+			 * log.info(studentService.findById(1).getName());
+			 * log.info("courseService.findById(3).getName():");
+			 * log.info(courseService.findById(3).getName());
+			 */
 		};
 	}
 

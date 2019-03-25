@@ -13,8 +13,12 @@ import java.util.stream.Stream;
 @Table(name = "Teacher")
 public class Teacher extends Person {
 
-	private String training;
-	// private String title;
+	/**
+	 * Training
+	 */
+	@JsonIgnore
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    private Set<Training> training = new HashSet<Training>();
 
 	/**
 	 * Courses
@@ -29,7 +33,7 @@ public class Teacher extends Person {
 	@JsonIgnore
 	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private Set<Title> titles = new HashSet<Title>();
-	
+
 	/**
 	 * Constructors
 	 */
@@ -52,9 +56,49 @@ public class Teacher extends Person {
 		this.titles.add(title);
 		title.setTeacher(this);
 	}
-
+	
+	public void addTraining(Training training) {
+		this.training.add(training);
+		training.setTeacher(this);
+	}
+	
 	public Set<Title> getTitles() {
 		return titles;
+	}
+
+	/**
+	 * @return the training
+	 */
+	public Set<Training> getTraining() {
+		return training;
+	}
+
+	/**
+	 * @param training the training to set
+	 */
+	public void setTraining(Set<Training> training) {
+		this.training = training;
+	}
+
+	/**
+	 * @return the courses
+	 */
+	public Set<Course> getCourses() {
+		return courses;
+	}
+
+	/**
+	 * @param courses the courses to set
+	 */
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
+	}
+
+	/**
+	 * @param titles the titles to set
+	 */
+	public void setTitles(Set<Title> titles) {
+		this.titles = titles;
 	}
 
 }

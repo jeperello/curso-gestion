@@ -33,7 +33,7 @@ public class TeacherController {
 	/**
 	 * Retrieve all teachers.
 	 * 
-	 * @return a List of teacher
+	 * @return a List of teachers
 	 */
 	@GetMapping
 	public List<Teacher> getAllTeacher() {
@@ -87,7 +87,6 @@ public class TeacherController {
 				teacherService.save(teacher);
 				return new ResponseEntity<>(Collections.singletonMap("id", teacher.getId()), HttpStatus.CREATED);
 			}
-			//return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			return new ResponseEntity<>(Collections.singletonMap("id", teacher.getId()), HttpStatus.NOT_FOUND);
 		} catch (Exception ex) {
 			return new ResponseEntity<>(Collections.singletonMap("error", ex.getMessage()),

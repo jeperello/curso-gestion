@@ -15,4 +15,6 @@ public interface ICourseService {
 	public Course findById(long id);
 	
 	public Course save(Course course);
+
+	void delete(Course course);
 }

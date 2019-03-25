@@ -19,7 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stacktrace.entity.Teacher;
+import com.stacktrace.entity.Title;
+import com.stacktrace.entity.Training;
 import com.stacktrace.service.TeacherService;
+import com.stacktrace.service.TitleService;
+import com.stacktrace.service.TrainingService;
 
 @RestController
 @RequestMapping(TeacherController.TEACHER_RESOURCE)
@@ -30,6 +34,12 @@ public class TeacherController {
 	@Autowired
 	TeacherService teacherService;
 
+	@Autowired
+	TitleService titleService;
+
+	@Autowired
+	TrainingService trainingService;
+	
 	/**
 	 * Retrieve all teachers.
 	 * 
@@ -52,6 +62,38 @@ public class TeacherController {
 		Teacher teacher = teacherService.findById(id);
 		if (teacher != null) {
 			return new ResponseEntity<>(teacher, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
+	}
+
+	/**
+	 * Retrieve a teacher's titles by teacher id.
+	 * 
+	 * @param id
+	 * @return a List of titles
+	 */
+	@GetMapping(value = "/{id}/titles")
+	public ResponseEntity<?> getTitlesByTeacherId(@PathVariable("id") Long id) {
+		Teacher teacher = teacherService.findById(id);
+		if (teacher != null) {
+			List<Title> titles = titleService.findByTeacherId(id);
+			return new ResponseEntity<>(titles, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
+	}
+
+	/**
+	 * Retrieve a teacher's trainings by teacher id.
+	 * 
+	 * @param id
+	 * @return a List of titles
+	 */
+	@GetMapping(value = "/{id}/trainings")
+	public ResponseEntity<?> getTrainingsByTeacherId(@PathVariable("id") Long id) {
+		Teacher teacher = teacherService.findById(id);
+		if (teacher != null) {
+			List<Training> trainings = trainingService.findByTeacherId(id);
+			return new ResponseEntity<>(trainings, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
 	}

@@ -18,7 +18,7 @@ public class Teacher extends Person {
 	 */
 	@JsonIgnore
 	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
-    private Set<Training> training = new HashSet<Training>();
+	private Set<Training> training = new HashSet<Training>();
 
 	/**
 	 * Courses
@@ -30,38 +30,41 @@ public class Teacher extends Person {
 	/**
 	 * Titles
 	 */
-	@JsonIgnore
-	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
-    private Set<Title> titles = new HashSet<Title>();
+	@ManyToMany
+	@JoinTable(
+			  name = "teacher_title", 
+			  joinColumns = @JoinColumn(name = "teacher_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "title_id"))
+	private Set<Title> titles = new HashSet<Title>();
 
 	/**
 	 * Constructors
 	 */
 	public Teacher() {
 	}
-	
+
 	public Teacher(String name, String lastName) {
 		super.setName(name);
 		super.setLastName(lastName);
 	}
-	
+
 	public Teacher(String name, String lastName, Title... titles) {
 		super.setName(name);
 		super.setLastName(lastName);
 		this.titles = Stream.of(titles).collect(Collectors.toSet());
-        this.titles.forEach(title -> title.setTeacher(this));
+		this.titles.forEach(title -> title.addTeacher(this));
 	}
-	
+
 	public void addTitle(Title title) {
 		this.titles.add(title);
-		title.setTeacher(this);
+		//title.addTeacher(this);
 	}
-	
+
 	public void addTraining(Training training) {
 		this.training.add(training);
 		training.setTeacher(this);
 	}
-	
+
 	public Set<Title> getTitles() {
 		return titles;
 	}

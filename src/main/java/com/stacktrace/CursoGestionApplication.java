@@ -26,7 +26,7 @@ import com.stacktrace.repository.TeacherRepository;
 import com.stacktrace.service.CourseService;
 import com.stacktrace.service.StudentService;
 import com.stacktrace.service.TeacherService;
-
+import com.stacktrace.service.TitleService;
 
 @RestController
 @SpringBootApplication
@@ -47,6 +47,9 @@ public class CursoGestionApplication {
 	@Autowired 
 	CourseService courseService;
 
+	@Autowired 
+	TitleService titleService;
+	
 	@Bean
 	public CommandLineRunner testRepositoriesMethods() {
 		return (args) -> {
@@ -97,17 +100,14 @@ public class CursoGestionApplication {
 			//courseService.save(newCourse);		
 			
 			// Save teacher with titles
-			teacherService.save(new Teacher("Juan Carlos", "Vives",
-					new Title("Curso Gestion"), 
-					new Title("Tecnico Electricista domiciliarion")));
+			Title titleSaved = titleService.save(new Title("Curso Gestion"));
 			
 			Teacher teacher3 = teacherService.save(new Teacher("Juan", "Sandoval"));
-			teacher3.addTitle(new Title("Gestion empresarial"));
-			teacherService.save(teacher3);
+			//teacher3.getTitles().add(titleSaved);
+			//teacherService.save(teacher3);
 
 			teacher3.addTraining(new Training("Gestion empresarial"));
 			teacherService.save(teacher3);
-			
 			
 			Student studentTest = new Student("Abelardo", "Figueras", new CourseStudent (newCourse));
 			Set<CourseStudent> test = studentTest.getCourseStudents();

@@ -1,11 +1,11 @@
 package com.stacktrace.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.stacktrace.entity.Teacher;
 
 
-public interface TeacherRepository extends CrudRepository<Teacher, Long>{
+public interface TeacherRepository extends JpaRepository<Teacher, Long>{
 	
 
 }

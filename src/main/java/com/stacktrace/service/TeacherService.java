@@ -22,9 +22,9 @@ public class TeacherService implements ITeacherService {
 	
 	@Override
 	public Teacher findById(Long id) {
-		Teacher teacher = new Teacher();
-		teacher = repository.findById(id).orElse(null);
-		return teacher;
+		//Teacher teacher = new Teacher();
+		return repository.findById(id).orElse(null);
+		//return teacher;
 	}
 
 	@Override

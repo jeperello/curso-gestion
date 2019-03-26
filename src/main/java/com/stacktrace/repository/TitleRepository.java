@@ -7,6 +7,5 @@ import com.stacktrace.entity.Title;
 
 public interface TitleRepository extends JpaRepository<Title, Long>{
 
-	//List<Title> findByTeacherId(long id);
 
 }

@@ -5,20 +5,19 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Title {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    //@ManyToOne
-    //@JoinColumn
-    //private Teacher teacher;
-
-    @ManyToMany(mappedBy = "titles", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Set<Teacher> teachers = new HashSet<Teacher>();
+    private Long id;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "title", cascade = CascadeType.ALL)
+    private Set<TeacherTitle> teacherTitles = new HashSet<>();
     
-    //@Column(unique = true)
+    @Column(unique = true)
     private String name;
 
     public Title() {
@@ -35,36 +34,15 @@ public class Title {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the teachers
-	 */
-	public Set<Teacher> getTeachers() {
-		return teachers;
-	}
-
-	/**
-	 * @param teachers the teachers to set
-	 */
-	public void setTeachers(Set<Teacher> teachers) {
-		this.teachers = teachers;
-	}
-
-	/**
-	 * @param teacher add teachers set
-	 */
-	public void addTeacher(Teacher teacher) {
-		this.teachers.add(teacher);
 	}
 
 	/**
@@ -74,4 +52,18 @@ public class Title {
 		this.name = name;
 	}
 	
+    /**
+	 * @return the teacherTitles
+	 */
+	public Set<TeacherTitle> getTeacherTitles() {
+		return teacherTitles;
+	}
+
+	/**
+	 * @param teacherTitles the teacherTitles to set
+	 */
+	public void setTeacherTitles(Set<TeacherTitle> teacherTitles) {
+		this.teacherTitles = teacherTitles;
+	}
+
 }

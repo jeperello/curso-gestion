@@ -3,7 +3,6 @@ package com.stacktrace.entity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
-import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.stream.Collectors;
@@ -30,12 +29,23 @@ public class Teacher extends Person {
 	/**
 	 * Titles
 	 */
-	@ManyToMany
-	@JoinTable(
-			  name = "teacher_title", 
-			  joinColumns = @JoinColumn(name = "teacher_id"), 
-			  inverseJoinColumns = @JoinColumn(name = "title_id"))
-	private Set<Title> titles = new HashSet<Title>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private Set<TeacherTitle> teacherTitles = new HashSet<TeacherTitle>();
+
+	/**
+	 * @return the teacherTitles
+	 */
+	public Set<TeacherTitle> getTeacherTitles() {
+		return teacherTitles;
+	}
+
+	/**
+	 * @param teacherTitles the teacherTitles to set
+	 */
+	public void setTeacherTitles(Set<TeacherTitle> teacherTitles) {
+		this.teacherTitles = teacherTitles;
+	}
 
 	/**
 	 * Constructors
@@ -48,25 +58,17 @@ public class Teacher extends Person {
 		super.setLastName(lastName);
 	}
 
-	public Teacher(String name, String lastName, Title... titles) {
+	public Teacher(String name, String lastName, TeacherTitle... teacherTitles) {
 		super.setName(name);
 		super.setLastName(lastName);
-		this.titles = Stream.of(titles).collect(Collectors.toSet());
-		this.titles.forEach(title -> title.addTeacher(this));
-	}
-
-	public void addTitle(Title title) {
-		this.titles.add(title);
-		//title.addTeacher(this);
+		for (TeacherTitle teacherTitle : teacherTitles)
+			teacherTitle.setTeacher(this);
+		this.teacherTitles = Stream.of(teacherTitles).collect(Collectors.toSet());
 	}
 
 	public void addTraining(Training training) {
 		this.training.add(training);
 		training.setTeacher(this);
-	}
-
-	public Set<Title> getTitles() {
-		return titles;
 	}
 
 	/**
@@ -95,13 +97,6 @@ public class Teacher extends Person {
 	 */
 	public void setCourses(Set<Course> courses) {
 		this.courses = courses;
-	}
-
-	/**
-	 * @param titles the titles to set
-	 */
-	public void setTitles(Set<Title> titles) {
-		this.titles = titles;
 	}
 
 }

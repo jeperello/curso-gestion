@@ -1,8 +1,10 @@
 package com.stacktrace.controller;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stacktrace.entity.Teacher;
+import com.stacktrace.entity.TeacherTitle;
 import com.stacktrace.entity.Title;
 import com.stacktrace.entity.Training;
 import com.stacktrace.service.TeacherService;
@@ -47,8 +50,8 @@ public class TeacherController {
 	 */
 	@GetMapping
 	public List<Teacher> getAllTeacher() {
-		List<Teacher> teacher = teacherService.findAll();
-		return teacher;
+		List<Teacher> teachers = teacherService.findAll();
+		return teachers;
 	}
 
 	/**
@@ -76,7 +79,10 @@ public class TeacherController {
 	public ResponseEntity<?> getTitlesByTeacherId(@PathVariable("id") Long id) {
 		Teacher teacher = teacherService.findById(id);
 		if (teacher != null) {
-			List<Title> titles = titleService.findByTeacherId(id);
+			Set<TeacherTitle> teacherTitles = teacher.getTeacherTitles();
+			Set<Title> titles = new HashSet<Title>();
+			for (TeacherTitle teacherTitle : teacherTitles)
+				titles.add(teacherTitle.getTitle());
 			return new ResponseEntity<>(titles, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);

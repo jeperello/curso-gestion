@@ -36,19 +36,16 @@ public class TeacherTitle implements Serializable {
         this.title = title;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TeacherTitle)) return false;
-        TeacherTitle that = (TeacherTitle) o;
-        return Objects.equals(teacher.getName(), that.teacher.getName()) &&
-                Objects.equals(title.getName(), that.title.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(teacher.getName(), title.getName());
-    }
+	/*
+	 * @Override public boolean equals(Object o) { if (this == o) return true; if
+	 * (!(o instanceof TeacherTitle)) return false; TeacherTitle that =
+	 * (TeacherTitle) o; return Objects.equals(teacher.getName(),
+	 * that.teacher.getName()) && Objects.equals(title.getName(),
+	 * that.title.getName()); }
+	 * 
+	 * @Override public int hashCode() { return Objects.hash(teacher.getName(),
+	 * title.getName()); }
+	 */
 
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;

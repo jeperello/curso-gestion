@@ -3,10 +3,8 @@ package com.stacktrace.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,14 +26,12 @@ public class Course {
 	private String description;
 	private Double approve;
 	
-	//@ManyToMany(fetch = FetchType.LAZY)
-	//private Set<Student> students = new HashSet<>();
 	@JsonIgnore
-	@OneToMany(mappedBy = "course", cascade = {CascadeType.ALL})
-	Set<CourseStudent> courseStudents = new HashSet<CourseStudent>();
+	@OneToMany(mappedBy = "course")
+	Set<StudentCourse> studentCourses;
 	
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(mappedBy = "courses")
 	private Set<Teacher> teachers = new HashSet<>();
 	
 	/**
@@ -47,18 +43,19 @@ public class Course {
 		this.name = name;
 	}
 	
+
 	/**
-	 * @return the courseStudents
+	 * @return the studentCourses
 	 */
-	public Set<CourseStudent> getCourseStudents() {
-		return courseStudents;
+	public Set<StudentCourse> getStudentCourses() {
+		return studentCourses;
 	}
 
 	/**
-	 * @param courseStudents the courseStudents to set
+	 * @param studentCourses the studentCourses to set
 	 */
-	public void setCourseStudents(Set<CourseStudent> courseStudents) {
-		this.courseStudents = courseStudents;
+	public void setStudentCourses(Set<StudentCourse> studentCourses) {
+		this.studentCourses = studentCourses;
 	}
 
 	/**
@@ -91,12 +88,6 @@ public class Course {
 	
 	public void addTeacher(Teacher teacher) {
 		teachers.add(teacher);
-	}
-	
-	public void addStudent(Student student) {
-		CourseStudent courseStudent = new CourseStudent(student, this);
-		courseStudents.add(courseStudent);
-		student.getCourseStudents().add(courseStudent);		
 	}
 	
 	/**

@@ -6,29 +6,37 @@ import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "course_student")
-public class CourseStudent implements Serializable {
+@Table(name = "student_course")
+public class StudentCourse implements Serializable {
 	
 	@Id
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "student_id")
 	private Student student;
 
 	@Id
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "course_id")
 	private Course course;
+	Double grade;
 
-	public CourseStudent(Student student, Course course) {
+	/**
+	 * Constructors
+	 */
+	public StudentCourse(Student student, Course course) {
 		// this.courseStudentId = new CourseStudent.CourseStudentId();
 		this.student = student;
 		this.course = course;
 	}
 
-	public CourseStudent(Course course) {
+	public StudentCourse(Course course) {
 		this.course = course;
 	}
 
+	public StudentCourse() {
+	}
+
+	
 	/**
 	 * @return the student
 	 */
@@ -57,13 +65,6 @@ public class CourseStudent implements Serializable {
 		this.course = course;
 	}
 
-	Double grade;
-
-	/**
-	 * Constructors
-	 */
-	public CourseStudent() {
-	}
 
 	/**
 	 * @return the grade
@@ -82,19 +83,14 @@ public class CourseStudent implements Serializable {
 		this.grade = grade;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (!(o instanceof CourseStudent))
-			return false;
-		CourseStudent that = (CourseStudent) o;
-		return Objects.equals(student.getName(), that.student.getName())
-				&& Objects.equals(course.getName(), that.course.getName()) && Objects.equals(grade, that.grade);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(student.getName(), course.getName(), grade);
-	}
+	/*
+	 * @Override public boolean equals(Object o) { if (this == o) return true; if
+	 * (!(o instanceof StudentCourse)) return false; StudentCourse that =
+	 * (StudentCourse) o; return Objects.equals(student.getName(),
+	 * that.student.getName()) && Objects.equals(course.getName(),
+	 * that.course.getName()) && Objects.equals(grade, that.grade); }
+	 * 
+	 * @Override public int hashCode() { return Objects.hash(student.getName(),
+	 * course.getName(), grade); }
+	 */
 }

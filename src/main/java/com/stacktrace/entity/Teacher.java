@@ -23,21 +23,27 @@ public class Teacher extends Person {
 	 * Courses
 	 */
 	@JsonIgnore
-	@ManyToMany(mappedBy = "teachers", fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "teacher_course", 
+				joinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"), 
+				inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
 	private Set<Course> courses;
 
 	/**
 	 * Titles
 	 */
 	@JsonIgnore
-	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	private Set<TeacherTitle> teacherTitles = new HashSet<TeacherTitle>();
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<TeacherTitle> teacherTitles;
 
 	/**
 	 * @return the teacherTitles
 	 */
 	public Set<TeacherTitle> getTeacherTitles() {
-		return teacherTitles;
+		if(teacherTitles != null) {
+			return teacherTitles;
+		}
+		return new HashSet<TeacherTitle>();
 	}
 
 	/**
@@ -56,6 +62,12 @@ public class Teacher extends Person {
 	public Teacher(String name, String lastName) {
 		super.setName(name);
 		super.setLastName(lastName);
+	}
+	
+	public Teacher(String name, String lastName, Set<Course> courses) {
+		super.setName(name);
+		super.setLastName(lastName);
+		this.courses = courses;
 	}
 
 	public Teacher(String name, String lastName, TeacherTitle... teacherTitles) {

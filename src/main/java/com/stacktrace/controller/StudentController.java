@@ -3,6 +3,7 @@ package com.stacktrace.controller;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stacktrace.entity.Course;
 import com.stacktrace.entity.Student;
 import com.stacktrace.entity.Teacher;
 import com.stacktrace.service.StudentService;
@@ -109,5 +111,24 @@ public class StudentController {
 		}
 		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
 	}
+	
+	/**
+	 * Retrieve a list of course by studentId.
+	 * 
+	 * @param id
+	 * @return a List of courses
+	 */
+	@GetMapping(value = "/{id}/courses")
+	public ResponseEntity<?> getStudentsByCourseId(@PathVariable("id") Long id) {
+			
+		Student studentSaved = studentService.findById(id);
+		if (studentSaved != null) {
+			Set<Course> courses = studentService.getCoursesByStudent(studentSaved);
 
+			return new ResponseEntity<>(courses, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
+	}
+
+	
 }

@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.FetchType;
+
 import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stacktrace.entity.Course;
-import com.stacktrace.entity.CourseStudent;
+import com.stacktrace.entity.StudentCourse;
 import com.stacktrace.entity.Student;
 import com.stacktrace.entity.Teacher;
 import com.stacktrace.entity.TeacherTitle;
@@ -111,32 +113,58 @@ public class CursoGestionApplication {
 			teacher3.addTraining(new Training("Gestion empresarial"));
 			teacherService.save(teacher3);
 
-			Student studentTest = new Student("Abelardo", "Figueras", new CourseStudent(newCourse));
-			Set<CourseStudent> test = studentTest.getCourseStudents();
-			studentService.save(studentTest);
+			//Student studentTest = new Student("Abelardo", "Figueras", new StudentCourse(newCourse));
+			//Set<StudentCourse> test = studentTest.getCourseStudents();
+			//studentService.save(studentTest);
 
 			Title bachiller = titleService.save(new Title("Bachiller"));
 			Teacher newTeacher = new Teacher("Rosendo", "Rosales");
 			TeacherTitle teacher_title = new TeacherTitle(newTeacher, bachiller);
-			newTeacher.setTeacherTitles(new HashSet<TeacherTitle>() {
-				{
-					add(teacher_title);
-				}
-			});
 
+			newTeacher.getTeacherTitles().add(teacher_title);
 			teacherService.save(newTeacher);
 
-			/*
-			 * Title title = titleService.findById(2L); if (title != null) { Teacher teacher
-			 * = teacherService.findById(2L); if (teacher != null) { TeacherTitle
-			 * teacher_title1 = new TeacherTitle(teacher, title);
-			 * teacher.getTeacherTitles().add(teacher_title1);
-			 * 
-			 * teacher.setTeacherTitles(new HashSet<TeacherTitle>() { { add(teacher_title1);
-			 * } });
-			 * 
-			 * teacherService.save(teacher); } }
-			 */
+			Title title = titleService.findById(2L);
+	
+			Teacher teacher2 = teacherService.findById(2L);
+			if (teacher2 != null) {
+				TeacherTitle teacher_title1 = new TeacherTitle(teacher2, title);
+				//teacher2.getTeacherTitles().add(teacher_title1);
+				//teacherService.save(teacher);
+			}
+			
+
+			Course courseA = new Course("CourseA");
+			Course courseB = new Course("CourseB");
+
+			teacherService.save(new Teacher("Roberto", "Gomez", new HashSet<Course>() {
+				{
+					add(courseA);
+					add(courseB);
+				}
+			}));
+			
+			Course course1 = courseService.findById(1L);
+			//teacher2.getCourses().add(course1);
+			//----------------->LazyInitializationException
+			//------------------->, fetch = FetchType.EAGER
+			//-------------------------->StackOverFlow Error
+			teacher2.setCourses(new HashSet<Course>() {{add(course1);}});
+			teacherService.save(teacher2);
+			
+			
+			//
+			 Student studentA = new Student("Carlos", "Sanchez");
+
+		        Course courseSA = new Course("Course SA");
+
+		        StudentCourse studentCourse = new StudentCourse();
+		        studentCourse.setStudent(studentA);
+		        studentCourse.setCourse(courseA);
+		        studentA.getStudentCourses().add(studentCourse);
+
+		        courseService.save(courseA);
+		        studentService.save(studentA);
 		};
 	}
 

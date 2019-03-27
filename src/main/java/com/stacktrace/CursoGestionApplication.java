@@ -128,7 +128,6 @@ public class CursoGestionApplication {
 			// Add teacher in a course
 			Course courseA = new Course("Course A");
 			Course courseB = new Course("Course B");
-
 			teacherService.save(new Teacher("Roberto", "Gomez", new HashSet<Course>() {
 				{
 					add(courseA);
@@ -153,8 +152,7 @@ public class CursoGestionApplication {
 			studentA.getStudentCourses().add(studentCourse);
 
 			courseService.save(courseC);
-			studentService.save(studentA);
-			
+			studentService.save(studentA);			
 		
 		};
 	}

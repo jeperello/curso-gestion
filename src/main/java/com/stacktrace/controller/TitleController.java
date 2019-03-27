@@ -108,11 +108,8 @@ public class TitleController {
 			if (title != null) {
 				Teacher teacher = teacherService.findById(teacherId);
 				if (teacher != null) {
-					//TODO
-					teacherService.save(teacher);	
-					return new ResponseEntity<>(Collections.singletonMap("teacher-title-id:",id ), 
-							HttpStatus.CREATED);
-					
+					teacherService.SetTitle(teacher, title);
+					return new ResponseEntity<>(Collections.singletonMap("teacher-title-id:", id), HttpStatus.CREATED);
 				}
 				return new ResponseEntity<>(Collections.singletonMap("teacher-id", id), HttpStatus.NOT_FOUND);
 			}

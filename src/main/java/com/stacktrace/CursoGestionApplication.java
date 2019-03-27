@@ -70,7 +70,7 @@ public class CursoGestionApplication {
 					add(new Course("Java 275", "Java 275", 36, 8D));
 					add(new Course("Computación 1", "Computación 1", 7D));
 					add(new Course("Gestion empresarial", "Gestion empresarial", 7D));
-					add(new Course("Curso Gestion"));
+					add(new Course("Curso Gestion", "Curso sobre Gestion empresarial", 36, 7D));
 				}
 			});
 			
@@ -120,14 +120,14 @@ public class CursoGestionApplication {
 			});
 			teacherService.save(teacher4);
 						
-			// Save teacher trainings
+			// Save teacher-training
 			Teacher teacher3 = teacherService.save(new Teacher("Juan", "Sandoval"));
 			teacher3.addTraining(new Training("Gestion empresarial"));
 			teacherService.save(teacher3);
 	
-			// Add teacher in a course
-			Course courseA = new Course("Course A");
-			Course courseB = new Course("Course B");
+			// Add teacher-course
+			Course courseA = new Course("Wamp Course", "Wamp Course", 36, 7D);
+			Course courseB = new Course("Xamp Course", "Xamp Course", 36, 7D);
 			teacherService.save(new Teacher("Roberto", "Gomez", new HashSet<Course>() {
 				{
 					add(courseA);
@@ -144,16 +144,28 @@ public class CursoGestionApplication {
 			});
 			teacherService.save(teacher2);
 
-			// Add student in a course
-			Student studentA = new Student("Carlos", "Sanchez");
-			Course courseC = new Course("Course C");
-
+			// Add student-course
+			Student studentA = new Student("Carlos", "Sanchez","M" , "DNI", 36002114L);
+			Course courseC = new Course("Ingles tecnico 1", "Ingles tecnico 1", 36, 8D);			
 			StudentCourse studentCourse = new StudentCourse(studentA, courseC, 8D);
 			studentA.getStudentCourses().add(studentCourse);
-
 			courseService.save(courseC);
 			studentService.save(studentA);			
 		
+			Student studentB = new Student("Alisa", "Vilchez", "F", "DNI", 54411454L);
+			Course courseD = new Course("Ingles tecnico 2", "Ingles tecnico 2", 36, 8D);			
+			StudentCourse studentCourse2 = new StudentCourse(studentB, courseD, 8D);
+			studentB.getStudentCourses().add(studentCourse2);			
+			courseService.save(courseD);
+			studentService.save(studentB);				
+			
+			Student student3 = new Student("Carlos", "Villagran","M" , "DNI", 36002114L);
+			Course course3 = new Course("Ingles tecnico 3", "Ingles tecnico 3", 36, 8D);			
+			StudentCourse studentCourse3 = new StudentCourse(student3, course3, 8D);
+			student3.getStudentCourses().add(studentCourse3);
+			courseService.save(course3);
+			studentService.save(student3);	
+			
 		};
 	}
 

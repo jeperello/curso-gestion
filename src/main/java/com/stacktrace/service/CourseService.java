@@ -62,9 +62,11 @@ public class CourseService implements ICourseService {
 		Set<Student> students = new HashSet<Student>();
 		Set<StudentCourse> studentsCourse = course.getStudentCourses();
 		
-		for (StudentCourse studentCourse : studentsCourse)
-			students.add(studentCourse.getStudent());
-
+		for (StudentCourse studentCourse : studentsCourse) {
+			if(course.getApproveGrade() <= studentCourse.getGrade()) {
+				students.add(studentCourse.getStudent());
+			}
+		}
 		return students;
 	}
 

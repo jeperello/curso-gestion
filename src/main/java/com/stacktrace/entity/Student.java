@@ -16,7 +16,7 @@ public class Student extends Person {
 	 * Courses
 	 */
 	@JsonIgnore
-	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	Set<StudentCourse> studentCourses;
 
 	/**
@@ -37,6 +37,7 @@ public class Student extends Person {
 		super.setDocumentType(documentType);
 		super.setDocumentNumber(documentNumber);
 		super.setSex(sex);
+		studentCourses = new HashSet<>();
 	}
 	
 	/**

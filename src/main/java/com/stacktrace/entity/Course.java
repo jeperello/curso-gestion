@@ -47,13 +47,13 @@ public class Course {
 		this.name = name;
 		this.duration = duration;
 		this.description = description;
-		this.approveGrade = approveGrade;
+		this.setApproveGrade(approveGrade);
 	}
 
 	public Course(String name, String description, Double approveGrade) {
 		this.name = name;
-		this.duration = duration;
-		this.approveGrade = approveGrade;
+		this.description = description;
+		this.setApproveGrade(approveGrade);
 	}
 	
 	/**
@@ -142,6 +142,20 @@ public class Course {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the approveGrade
+	 */
+	public Double getApproveGrade() {
+		return approveGrade;
+	}
+
+	/**
+	 * @param approveGrade the approveGrade to set
+	 */
+	public void setApproveGrade(Double approveGrade) {
+		this.approveGrade = approveGrade;
 	}
 
 

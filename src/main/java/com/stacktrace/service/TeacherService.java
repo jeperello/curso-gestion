@@ -11,6 +11,7 @@ import com.stacktrace.entity.Course;
 import com.stacktrace.entity.Student;
 import com.stacktrace.entity.StudentCourse;
 import com.stacktrace.entity.Teacher;
+import com.stacktrace.entity.Title;
 import com.stacktrace.repository.TeacherRepository;
 
 @Service
@@ -47,10 +48,13 @@ public class TeacherService implements ITeacherService {
 
 	public Set<Course> getCoursesByTeacher(Teacher teacher) {
 		Set<Course> courses = new HashSet<Course>();
-
 		courses = teacher.getCourses();
-
 		return courses;
+	}
+
+	public void SetTitle(Teacher teacher, Title title) {
+		teacher.setTitles(new HashSet<Title>(){{add(title);}});
+		repository.save(teacher);			
 	}
 
 }

@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stacktrace.entity.Course;
 import com.stacktrace.entity.Student;
-import com.stacktrace.entity.Teacher;
 import com.stacktrace.service.StudentService;
 
 @RestController
@@ -82,7 +80,7 @@ public class StudentController {
 	 * @return return updated student
 	 */
 	@PutMapping
-	public ResponseEntity<Map<String, Object>> Student(@RequestBody Student student) {
+	public ResponseEntity<Map<String, Object>> updateStudent(@RequestBody Student student) {
 		try {
 			Student studentSaved = studentService.findById(student.getId());
 			if (studentSaved != null) {
@@ -119,7 +117,7 @@ public class StudentController {
 	 * @return a List of courses
 	 */
 	@GetMapping(value = "/{id}/courses")
-	public ResponseEntity<?> getStudentsByCourseId(@PathVariable("id") Long id) {
+	public ResponseEntity<?> getCourseByStudentId(@PathVariable("id") Long id) {
 			
 		Student studentSaved = studentService.findById(id);
 		if (studentSaved != null) {
@@ -129,6 +127,5 @@ public class StudentController {
 		}
 		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
 	}
-
 	
 }

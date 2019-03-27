@@ -43,7 +43,22 @@ public class CourseService implements ICourseService {
 		repository.delete(course);
 	}
 
+	@Override
+	public List<Course> saveAll(Set<Course> courses) {
+		return repository.saveAll(courses);
+	}
+	
 	public Set<Student> getStudentsByCourse(Course course) {
+		Set<Student> students = new HashSet<Student>();
+		Set<StudentCourse> studentsCourse = course.getStudentCourses();
+		
+		for (StudentCourse studentCourse : studentsCourse)
+			students.add(studentCourse.getStudent());
+
+		return students;
+	}
+
+	public Set<Student> getApprovedStudentsByCourse(Course course) {
 		Set<Student> students = new HashSet<Student>();
 		Set<StudentCourse> studentsCourse = course.getStudentCourses();
 		

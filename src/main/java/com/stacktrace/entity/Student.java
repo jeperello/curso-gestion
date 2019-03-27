@@ -30,7 +30,15 @@ public class Student extends Person {
 		super.setLastName(lastName);
 		studentCourses = new HashSet<>();
 	}
-
+	
+	public Student(String name, String lastName, String sex, String documentType, Long documentNumber) {
+		super.setName(name);
+		super.setLastName(lastName);
+		super.setDocumentType(documentType);
+		super.setDocumentNumber(documentNumber);
+		super.setSex(sex);
+	}
+	
 	/**
 	 * @return the studentCourses
 	 */

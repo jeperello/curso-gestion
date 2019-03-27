@@ -1,7 +1,6 @@
 package com.stacktrace.controller;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,10 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stacktrace.entity.Course;
 import com.stacktrace.entity.Student;
-import com.stacktrace.entity.StudentCourse;
-import com.stacktrace.entity.Teacher;
-import com.stacktrace.entity.TeacherTitle;
-import com.stacktrace.entity.Title;
 import com.stacktrace.service.CourseService;
 
 @RestController
@@ -85,7 +80,7 @@ public class CourseController {
 	 * @return return updated course
 	 */
 	@PutMapping
-	public ResponseEntity<Map<String, Object>> updateTeacher(@RequestBody @Valid Course course) {
+	public ResponseEntity<Map<String, Object>> updateCourse(@RequestBody @Valid Course course) {
 		try {
 			Course courseSaved = courseService.findById(course.getId());
 			if (courseSaved != null) {
@@ -133,6 +128,24 @@ public class CourseController {
 		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
 	}
 
+	
+	/**
+	 * Retrieve a list of approved students by courseId.
+	 * 
+	 * @param id
+	 * @return a List of students
+	 */
+	@GetMapping(value = "/{id}/approved")
+	public ResponseEntity<?> getApprovedStudentsByCourseId(@PathVariable("id") Long id) {
+		
+		Course course = courseService.findById(id);
+		if (course != null) {
+			Set<Student> students = courseService.getApprovedStudentsByCourse(course);
+
+			return new ResponseEntity<>(students, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
+	}
 
 
 }

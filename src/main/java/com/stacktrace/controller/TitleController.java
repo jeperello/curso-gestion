@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stacktrace.entity.Teacher;
-import com.stacktrace.entity.TeacherTitle;
 import com.stacktrace.entity.Title;
-import com.stacktrace.entity.Training;
 import com.stacktrace.service.TeacherService;
 import com.stacktrace.service.TitleService;
 
@@ -87,7 +85,7 @@ public class TitleController {
 	 * @return return
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteTeacher(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<?> deleteTitle(@PathVariable(value = "id") Long id) {
 		Title title = titleService.findById(id);
 		if (title != null) {
 			titleService.delete(title);
@@ -110,12 +108,7 @@ public class TitleController {
 			if (title != null) {
 				Teacher teacher = teacherService.findById(teacherId);
 				if (teacher != null) {
-					TeacherTitle teacher_title = new TeacherTitle(teacher, title);
-					teacher.setTeacherTitles(new HashSet<TeacherTitle>() {
-						{
-							add(teacher_title);
-						}
-					});
+					//TODO
 					teacherService.save(teacher);	
 					return new ResponseEntity<>(Collections.singletonMap("teacher-title-id:",id ), 
 							HttpStatus.CREATED);

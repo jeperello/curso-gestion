@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stacktrace.entity.Course;
 import com.stacktrace.entity.Teacher;
-import com.stacktrace.entity.TeacherTitle;
 import com.stacktrace.entity.Title;
 import com.stacktrace.entity.Training;
 import com.stacktrace.service.TeacherService;
@@ -79,10 +79,7 @@ public class TeacherController {
 	public ResponseEntity<?> getTitlesByTeacherId(@PathVariable("id") Long id) {
 		Teacher teacher = teacherService.findById(id);
 		if (teacher != null) {
-			Set<TeacherTitle> teacherTitles = teacher.getTeacherTitles();
-			Set<Title> titles = new HashSet<Title>();
-			for (TeacherTitle teacherTitle : teacherTitles)
-				titles.add(teacherTitle.getTitle());
+			Set<Title> titles = teacher.getTitles();
 			return new ResponseEntity<>(titles, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
@@ -154,6 +151,23 @@ public class TeacherController {
 		if (teacher != null) {
 			teacherService.delete(teacher);
 			return ResponseEntity.ok().build();
+		}
+		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
+	}
+	
+	/**
+	 * Retrieve a list of course by teacherId.
+	 * 
+	 * @param id
+	 * @return a List of courses
+	 */
+	@GetMapping(value = "/{id}/courses")
+	public ResponseEntity<?> getCoursesByTeacherId(@PathVariable("id") Long id) {
+			
+		Teacher teacher = teacherService.findById(id);
+		if (teacher != null) {
+			Set<Course> courses = teacherService.getCoursesByTeacher(teacher);
+			return new ResponseEntity<>(courses, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
 	}

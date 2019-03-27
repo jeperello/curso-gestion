@@ -1,6 +1,7 @@
 package com.stacktrace.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.stacktrace.entity.Title;
 
@@ -20,4 +21,6 @@ public interface ITitleService {
 	void delete(Title title);
 
 	List<Title> findByTeacherId(long id);
+
+	List<Title> saveAll(Set<Title> titles);
 }

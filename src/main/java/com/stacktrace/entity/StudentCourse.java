@@ -24,11 +24,16 @@ public class StudentCourse implements Serializable {
 	 * Constructors
 	 */
 	public StudentCourse(Student student, Course course) {
-		// this.courseStudentId = new CourseStudent.CourseStudentId();
 		this.student = student;
 		this.course = course;
 	}
-
+	
+	public StudentCourse(Student student, Course course, Double grade) {
+		this.student = student;
+		this.course = course;
+		this.grade = grade;
+	}
+	
 	public StudentCourse(Course course) {
 		this.course = course;
 	}

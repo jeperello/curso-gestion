@@ -24,34 +24,16 @@ public class Teacher extends Person {
 	 */
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "teacher_course", 
-				joinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"), 
-				inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
+	@JoinTable(name = "teacher_course", joinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"))
 	private Set<Course> courses;
 
 	/**
 	 * Titles
 	 */
 	@JsonIgnore
-	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<TeacherTitle> teacherTitles;
-
-	/**
-	 * @return the teacherTitles
-	 */
-	public Set<TeacherTitle> getTeacherTitles() {
-		if(teacherTitles != null) {
-			return teacherTitles;
-		}
-		return new HashSet<TeacherTitle>();
-	}
-
-	/**
-	 * @param teacherTitles the teacherTitles to set
-	 */
-	public void setTeacherTitles(Set<TeacherTitle> teacherTitles) {
-		this.teacherTitles = teacherTitles;
-	}
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "teacher_title", joinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "title_id", referencedColumnName = "id"))
+	private Set<Title> titles;
 
 	/**
 	 * Constructors
@@ -63,19 +45,19 @@ public class Teacher extends Person {
 		super.setName(name);
 		super.setLastName(lastName);
 	}
-	
+
 	public Teacher(String name, String lastName, Set<Course> courses) {
 		super.setName(name);
 		super.setLastName(lastName);
 		this.courses = courses;
 	}
 
-	public Teacher(String name, String lastName, TeacherTitle... teacherTitles) {
+	public Teacher(String name, String lastName, String sex, String documentType, Long documentNumber) {
 		super.setName(name);
 		super.setLastName(lastName);
-		for (TeacherTitle teacherTitle : teacherTitles)
-			teacherTitle.setTeacher(this);
-		this.teacherTitles = Stream.of(teacherTitles).collect(Collectors.toSet());
+		super.setDocumentType(documentType);
+		super.setDocumentNumber(documentNumber);
+		super.setSex(sex);
 	}
 
 	public void addTraining(Training training) {
@@ -109,6 +91,37 @@ public class Teacher extends Person {
 	 */
 	public void setCourses(Set<Course> courses) {
 		this.courses = courses;
+	}
+
+	/**
+	 * @return the titles
+	 */
+	public Set<Title> getTitles() {
+		return titles;
+	}
+
+	/**
+	 * @param titles the titles to set
+	 */
+	public void setTitles(Set<Title> titles) {
+		this.titles = titles;
+	}
+
+	/**
+	 * addTitle
+	 * 
+	 * @param title
+	 */
+	public void addTitle(Title title) {
+		if (this.titles != null) {
+			this.titles.add(title);
+		} else {
+			this.titles = new HashSet<Title>() {
+				{
+					add(title);
+				}
+			};
+		}
 	}
 
 }

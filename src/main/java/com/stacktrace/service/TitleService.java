@@ -2,10 +2,12 @@ package com.stacktrace.service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.stacktrace.entity.Teacher;
 import com.stacktrace.entity.Title;
 import com.stacktrace.entity.Training;
 import com.stacktrace.repository.TitleRepository;
@@ -44,4 +46,10 @@ public class TitleService implements ITitleService {
 		//return titles;
 		return (List<Title>) new HashSet<Title>();
 	}
+	
+	@Override
+	public List<Title> saveAll(Set<Title> titles) {
+		return repository.saveAll(titles);
+	}
+
 }

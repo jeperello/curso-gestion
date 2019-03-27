@@ -11,6 +11,7 @@ import com.stacktrace.entity.Course;
 import com.stacktrace.entity.Student;
 import com.stacktrace.entity.StudentCourse;
 import com.stacktrace.entity.Teacher;
+import com.stacktrace.entity.Title;
 import com.stacktrace.repository.StudentRepository;
 
 @Service
@@ -42,6 +43,11 @@ public class StudentService implements IStudentService {
 		repository.delete(student);
 	}
 
+	@Override
+	public List<Student> saveAll(Set<Student> students) {
+		return repository.saveAll(students);
+	}
+	
 	public Set<Course> getCoursesByStudent(Student student) {
 		Set<Course> courses = new HashSet<Course>();
 

@@ -1,13 +1,8 @@
 package com.stacktrace;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.FetchType;
-
-import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +10,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stacktrace.entity.Course;
 import com.stacktrace.entity.StudentCourse;
 import com.stacktrace.entity.Student;
 import com.stacktrace.entity.Teacher;
-import com.stacktrace.entity.TeacherTitle;
 import com.stacktrace.entity.Title;
 import com.stacktrace.entity.Training;
 import com.stacktrace.service.CourseService;
@@ -60,23 +51,29 @@ public class CursoGestionApplication {
 			/*
 			 * Teacher Test service
 			 */
-			/*
-			 * Teacher newTeacher = new Teacher("Rosendo", "Rosales");
-			 * teacherService.save(newTeacher); teacherService.save(new Teacher("Luis",
-			 * "Mercado")); Teacher teacher3 = teacherService.save(new Teacher("Juan",
-			 * "Sandoval")); teacherService.save(new Teacher("Jack", "Bauer"));
-			 * teacherService.save(new Teacher("Chloe", "O'Brian"));
-			 */
+			teacherService.saveAll(new HashSet<Teacher>() {
+				{
+					add(new Teacher("Jorge", "Perello", "M", "DNI", 31445874L));
+					add(new Teacher("Julian", "Martinez", "M", "DNI", 27445874L));
+					add(new Teacher("Monica", "Labertuchi", "F", "DNI", 34557448L));
+					add(new Teacher("Jhonatan","Calderon","M" , "DNI", 29885699L));
+					add(new Teacher("Jesus", "Hurtado", "M", "DNI", 30332554L));
+				}
+			});
 
 			/*
 			 * Course Test service
 			 */
-			Course newCourse = new Course();
-			newCourse.setName("Gestion empresarial");
-			courseService.save(newCourse);
-			// courseService.save(new Course("Java 110"));
-			// courseService.save(new Course("Java 275"));
-
+			courseService.saveAll(new HashSet<Course>() {
+				{
+					add(new Course("Java 110", "Java 110", 28, 8D));
+					add(new Course("Java 275", "Java 275", 36, 8D));
+					add(new Course("Computación 1", "Computación 1", 7D));
+					add(new Course("Gestion empresarial", "Gestion empresarial", 7D));
+					add(new Course("Curso Gestion"));
+				}
+			});
+			
 			/*
 			 * Student Test service
 			 */
@@ -84,58 +81,53 @@ public class CursoGestionApplication {
 			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
 			newStudent.setBirthday(sdf.parse("9-02-17"));
 			studentService.save(newStudent);
-
-			Student student2 = studentService.save(new Student("Manuel", "Peralta"));
-			// studentService.save(new Student("Juana","Molina"));
-			// studentService.save(new Student("Kim", "Bauer"));
-			// studentService.save(new Student("David", "Palmer"));
-			// studentService.save(new Student("Michelle", "Dessler"));
+			
+			studentService.saveAll(new HashSet<Student>() {
+				{
+					add(new Student("Raquel","Dolccemascolo","F" , "DNI", 29885698L));
+					add(new Student("Tamara","Infante","F" , "DNI", 29554778L));
+					add(new Student("Matias","Schaefer","M" , "DNI", 36002114L));
+					add(new Student("Genesis", "Montilla", "F", "DNI", 35665224L ));
+				}
+			});
 
 			/*
-			 * Relations Repository Test
+			 * Teacher's titles service
+			 */			
+			titleService.saveAll(new HashSet<Title>() {
+				{
+					add(new Title("Ingeniero Electronico"));
+					add(new Title("Ingeniería en Computación"));
+					add(new Title("Licenciatura en Ciencias Matemáticas"));
+					add(new Title("Licenciatura en Física"));
+					add(new Title("Profesorado en Matemáticas"));
+				}
+			});
+			
+			/*
+			 * -----------------------------------------
+			 * ----------Relations Test Data------------
+			 * -----------------------------------------
 			 */
-			// Add student in a course
-			// newCourse.addStudent(newStudent);
-			// newCourse.addStudent(student2);
-
-			// Add teacher in a course
-			// newCourse.addTeacher(newTeacher);
-			// newCourse.addTeacher(teacher3);
-			// courseService.save(newCourse);
-
-			// Save teacher with titles
-			Title titleSaved = titleService.save(new Title("Curso Gestion"));
-
+			// Save teacher-titles
+			Teacher teacher4 = teacherService.findById(4L);
+			Title title1 = titleService.findById(1L);
+			//teacher4.addTitle(title1);	
+			teacher4.setTitles(new HashSet<Title>() {
+				{
+					add(title1);
+				}
+			});
+			teacherService.save(teacher4);
+						
+			// Save teacher trainings
 			Teacher teacher3 = teacherService.save(new Teacher("Juan", "Sandoval"));
-
-			teacherService.save(new Teacher("Name", "last name", new TeacherTitle(titleSaved)));
-
 			teacher3.addTraining(new Training("Gestion empresarial"));
 			teacherService.save(teacher3);
-
-			//Student studentTest = new Student("Abelardo", "Figueras", new StudentCourse(newCourse));
-			//Set<StudentCourse> test = studentTest.getCourseStudents();
-			//studentService.save(studentTest);
-
-			Title bachiller = titleService.save(new Title("Bachiller"));
-			Teacher newTeacher = new Teacher("Rosendo", "Rosales");
-			TeacherTitle teacher_title = new TeacherTitle(newTeacher, bachiller);
-
-			newTeacher.getTeacherTitles().add(teacher_title);
-			teacherService.save(newTeacher);
-
-			Title title = titleService.findById(2L);
 	
-			Teacher teacher2 = teacherService.findById(2L);
-			if (teacher2 != null) {
-				TeacherTitle teacher_title1 = new TeacherTitle(teacher2, title);
-				//teacher2.getTeacherTitles().add(teacher_title1);
-				//teacherService.save(teacher);
-			}
-			
-
-			Course courseA = new Course("CourseA");
-			Course courseB = new Course("CourseB");
+			// Add teacher in a course
+			Course courseA = new Course("Course A");
+			Course courseB = new Course("Course B");
 
 			teacherService.save(new Teacher("Roberto", "Gomez", new HashSet<Course>() {
 				{
@@ -143,28 +135,27 @@ public class CursoGestionApplication {
 					add(courseB);
 				}
 			}));
-			
+
+			Teacher teacher2 = teacherService.findById(2L);
 			Course course1 = courseService.findById(1L);
-			//teacher2.getCourses().add(course1);
-			//----------------->LazyInitializationException
-			//------------------->, fetch = FetchType.EAGER
-			//-------------------------->StackOverFlow Error
-			teacher2.setCourses(new HashSet<Course>() {{add(course1);}});
+			teacher2.setCourses(new HashSet<Course>() {
+				{
+					add(course1);
+				}
+			});
 			teacherService.save(teacher2);
+
+			// Add student in a course
+			Student studentA = new Student("Carlos", "Sanchez");
+			Course courseC = new Course("Course C");
+
+			StudentCourse studentCourse = new StudentCourse(studentA, courseC, 8D);
+			studentA.getStudentCourses().add(studentCourse);
+
+			courseService.save(courseC);
+			studentService.save(studentA);
 			
-			
-			//
-			 Student studentA = new Student("Carlos", "Sanchez");
-
-		        Course courseSA = new Course("Course SA");
-
-		        StudentCourse studentCourse = new StudentCourse();
-		        studentCourse.setStudent(studentA);
-		        studentCourse.setCourse(courseA);
-		        studentA.getStudentCourses().add(studentCourse);
-
-		        courseService.save(courseA);
-		        studentService.save(studentA);
+		
 		};
 	}
 

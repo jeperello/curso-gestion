@@ -24,7 +24,7 @@ public class Course {
 	private String name;
 	private int duration;
 	private String description;
-	private Double approve;
+	private Double approveGrade;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "course")
@@ -41,9 +41,21 @@ public class Course {
 
 	public Course(String name) {
 		this.name = name;
+	}	
+	
+	public Course(String name, String description, int duration, Double approveGrade) {
+		this.name = name;
+		this.duration = duration;
+		this.description = description;
+		this.approveGrade = approveGrade;
+	}
+
+	public Course(String name, String description, Double approveGrade) {
+		this.name = name;
+		this.duration = duration;
+		this.approveGrade = approveGrade;
 	}
 	
-
 	/**
 	 * @return the studentCourses
 	 */
@@ -132,18 +144,5 @@ public class Course {
 		this.description = description;
 	}
 
-	/**
-	 * @return the approve
-	 */
-	public Double getApprove() {
-		return approve;
-	}
-
-	/**
-	 * @param approve the approve to set
-	 */
-	public void setApprove(Double approve) {
-		this.approve = approve;
-	}
 
 }

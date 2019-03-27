@@ -12,11 +12,11 @@ public class Title {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
+		
 	@JsonIgnore
-	@OneToMany(mappedBy = "title", cascade = CascadeType.ALL)
-    private Set<TeacherTitle> teacherTitles = new HashSet<>();
-    
+	@ManyToMany(mappedBy = "titles")
+	private Set<Teacher> teachers = new HashSet<>();
+	
     @Column(unique = true)
     private String name;
 
@@ -51,19 +51,19 @@ public class Title {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-    /**
-	 * @return the teacherTitles
+
+	/**
+	 * @return the teachers
 	 */
-	public Set<TeacherTitle> getTeacherTitles() {
-		return teacherTitles;
+	public Set<Teacher> getTeachers() {
+		return teachers;
 	}
 
 	/**
-	 * @param teacherTitles the teacherTitles to set
+	 * @param teachers the teachers to set
 	 */
-	public void setTeacherTitles(Set<TeacherTitle> teacherTitles) {
-		this.teacherTitles = teacherTitles;
+	public void setTeachers(Set<Teacher> teachers) {
+		this.teachers = teachers;
 	}
 
 }

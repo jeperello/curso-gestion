@@ -28,7 +28,7 @@ Se deben implementar las siguientes consultas:
 - Obtener la lista de alumnos aprobados dada una materia determinada.
 - Obtener la lista de cursos aprobados de un alumno determinado.
 
-### API ENDPOINTS
+## API ENDPOINTS
 
 ## Profesores: /api/teachers
 **Obtener la lista de todos los profesores:** 
@@ -114,7 +114,7 @@ curl -X POST "http://localhost:8080/api/courses" -H "accept: */*" -H "Content-Ty
 curl -X DELETE "http://localhost:8080/api/courses/2" -H "accept: */*"
 ```
 
-**Modificar curso.:** 
+**Modificar curso:** 
 
 ```
 curl -X PUT "http://localhost:8080/api/courses" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"approveGrade\": 7, \"description\": \"Curso de capacitacion integral\", \"duration\": 20, \"id\": 3, \"name\": \"Curso de capacitacion integral\"}"
@@ -172,3 +172,7 @@ curl -X GET "http://localhost:8080/api/students/8/courses" -H "accept: */*"
 ```
 curl -X GET "http://localhost:8080/api/students/8/approved" -H "accept: */*"
 ```
+
+
+## Adicional:
+Los endpoints se pueden visualizar y testear con swagger-ui desde la url  http://localhost:8080/swagger-ui.html

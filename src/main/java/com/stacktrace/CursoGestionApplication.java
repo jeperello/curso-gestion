@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,11 +25,15 @@ import com.stacktrace.service.StudentService;
 import com.stacktrace.service.TeacherService;
 import com.stacktrace.service.TitleService;
 
-@RestController
 @SpringBootApplication
-public class CursoGestionApplication {
+public class CursoGestionApplication extends SpringBootServletInitializer {
 
 	private static final Logger log = LoggerFactory.getLogger(CursoGestionApplication.class);
+	
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(CursoGestionApplication.class);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursoGestionApplication.class, args);
@@ -160,11 +166,19 @@ public class CursoGestionApplication {
 			studentService.save(studentB);				
 			
 			Student student3 = new Student("Carlos", "Villagran","M" , "DNI", 36002114L);
-			Course course3 = new Course("Ingles tecnico 3", "Ingles tecnico 3", 36, 8D);			
+			Course course3 = new Course("Ingles tecnico 3", "Ingles tecnico 3", 36, 9D);			
 			StudentCourse studentCourse3 = new StudentCourse(student3, course3, 8D);
 			student3.getStudentCourses().add(studentCourse3);
+			StudentCourse studentCourse4 = new StudentCourse(student3, courseD, 8D);
+			student3.getStudentCourses().add(studentCourse4);
 			courseService.save(course3);
 			studentService.save(student3);	
+						
+			Student studentNew = new Student("Luciana", "Villegas","F" , "DNI", 36002114L);
+			Course course8 = courseService.findById(8L);			
+			StudentCourse studentCourse8 = new StudentCourse(studentNew, course8, 7D);
+			studentNew.getStudentCourses().add(studentCourse8);
+			studentService.save(studentNew);	
 			
 		};
 	}

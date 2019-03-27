@@ -57,4 +57,9 @@ public class TeacherService implements ITeacherService {
 		repository.save(teacher);			
 	}
 
+	public void SetCourse(Teacher teacher, Course course) {
+		teacher.setCourses(new HashSet<Course>(){{add(course);}});
+		repository.save(teacher);			
+	}
+
 }

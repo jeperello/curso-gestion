@@ -58,4 +58,17 @@ public class StudentService implements IStudentService {
 		return courses;
 	}
 
+	public Set<Course> getApprovedCoursesByStudent(Student student) {
+		Set<Course> courses = new HashSet<Course>();
+
+		Set<StudentCourse> studentsCourse = student.getStudentCourses();
+		for (StudentCourse studentCourse : studentsCourse) {	
+			Course currentCourse = studentCourse.getCourse();
+			if(currentCourse.getApproveGrade() <= studentCourse.getGrade()) {
+				courses.add(currentCourse);
+			}
+		}
+		return courses;
+	}
+
 }

@@ -126,9 +126,15 @@ curl -X PUT "http://localhost:8080/api/courses" -H "accept: */*" -H "Content-Typ
 curl -X GET "http://localhost:8080/api/courses/8/students" -H "accept: */*"
 ```
 
-**Agregar profesor a un curso:**
+**Obtener la lista de estudiantes aprovados de un curso determinado:**
+
+```
+curl -X GET "http://localhost:8080/api/courses/8/approved" -H "accept: */*"
 ```
 
+**Agregar profesor a un curso:**
+```
+curl -X POST "http://localhost:8080/api/courses/1" -H "accept: */*" -H "Content-Type: application/json" -d "2"
 ```
 
 ## Estudiantes: /api/students
@@ -159,10 +165,10 @@ curl -X PUT "http://localhost:8080/api/students" -H "accept: */*" -H "Content-Ty
 
 **Obtener la lista de los cursos de un estudiante:**
 ```
-curl -X GET "http://localhost:8080/api/students/6/courses" -H "accept: */*"
+curl -X GET "http://localhost:8080/api/students/8/courses" -H "accept: */*"
 ```
 
 **Obtener la lista de los cursos aprovados de un estudiante:**
 ```
-curl -X GET "http://localhost:8080/api/teachers/7/courses" -H "accept: */*"
+curl -X GET "http://localhost:8080/api/students/8/approved" -H "accept: */*"
 ```

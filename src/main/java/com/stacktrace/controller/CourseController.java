@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stacktrace.entity.Course;
 import com.stacktrace.entity.Student;
+import com.stacktrace.entity.Teacher;
+import com.stacktrace.entity.Title;
 import com.stacktrace.service.CourseService;
+import com.stacktrace.service.TeacherService;
 
 @RestController
 @RequestMapping("api/courses")
@@ -30,6 +33,9 @@ public class CourseController {
 	@Autowired
 	CourseService courseService;
 
+	@Autowired
+	TeacherService teacherService;
+	
 	/**
 	 * Retrieve all course.
 	 * 
@@ -147,5 +153,30 @@ public class CourseController {
 		return new ResponseEntity<>(Collections.singletonMap("id", id), HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * Save teacher-course relationship.
+	 * 
+	 * @param title
+	 * @return return saved title id
+	 */
+	@PostMapping("/{id}")
+	public ResponseEntity<Map<String, Object>> saveTeacherCourse(@RequestBody Long teacherId,
+			@PathVariable(value = "id") Long id) {
+		try {
+			Course course = courseService.findById(id);
+			if (course != null) {
+				Teacher teacher = teacherService.findById(teacherId);
+				if (teacher != null) {
+					teacherService.SetCourse(teacher, course);
+					return new ResponseEntity<>(Collections.singletonMap("teacher-course-id:", id), HttpStatus.CREATED);
+				}
+				return new ResponseEntity<>(Collections.singletonMap("teacher-id", id), HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<>(Collections.singletonMap("title-id", id), HttpStatus.NOT_FOUND);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(Collections.singletonMap("error", ex.getMessage()),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 }
